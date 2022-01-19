@@ -5,19 +5,19 @@ FROM ${BUILD_FROM}
 ENV LANG C.UTF-8
 
 ARG BUILD_ARCH=amd64
-ARG BUILD_VERSION=2021.10.0
 
 WORKDIR /cloudflare
 
 # Required for /lib/ld-linux*
 # hadolint ignore=DL3018
+
 RUN apk add --no-cache libc6-compat \
     && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi \
     && if [ "${BUILD_ARCH}" = "armhf" ]; then ARCH="arm"; fi \
     && if [ "${BUILD_ARCH}" = "armv7" ]; then ARCH="arm"; fi \
     && if [ "${BUILD_ARCH}" = "amd64" ]; then ARCH="amd64"; fi \
     && if [ "${BUILD_ARCH}" = "i386" ]; then ARCH="386"; fi \
-    && curl -fsSL https://github.com/cloudflare/cloudflared/releases/download/${BUILD_VERSION}/cloudflared-linux-${ARCH} -o /cloudflared \
+    && curl -fsSL https://github.com/cloudflare/cloudflared/releases/download/2021.12.1/cloudflared-linux-${ARCH} -o /cloudflared \
     && chmod a+x /cloudflared
 
 COPY entrypoint.sh /
