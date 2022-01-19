@@ -5,6 +5,7 @@
 - `https://github.com/cloudflare/cloudflared/releases`
 
 ## hassio -> arch command -> Cloudflare release
+
 | hassio  | \$arch  | cloudflared |
 | ------- | ------- | ----------- |
 | i386    | i386    | 386         |
