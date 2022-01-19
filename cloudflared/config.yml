@@ -3,6 +3,7 @@ name: Cloudflare Tunnel
 version: dev
 slug: cloudflared
 description: Cloudflare Argo Tunnel client
+image: ghcr.io/pemontto/cloudflared/{arch}
 startup: services
 panel_icon: mdi:vpn
 arch:
