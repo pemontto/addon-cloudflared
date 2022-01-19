@@ -33,6 +33,13 @@ fi
 
 # TUNNEL_ORIGIN_CERT="$(bashio::config 'certificate')"
 TUNNEL_ORIGIN_CERT="/ssl/cloudflared/cert.pem"
+if bashio::config.has_value 'tunnel_name'; then
+    TUNNEL_NAME="$(bashio::config 'tunnel_name')"
+else
+    bashio::log.info "No tunnel name set, using default 'ha-cloudflare'..."
+    TUNNEL_NAME="ha-cloudflare"
+fi
+TUNNEL_CRED_FILE="$(dirname "$TUNNEL_ORIGIN_CERT")/$TUNNEL_NAME.yml"
 
 # Create directories
 mkdir -p "/ssl/cloudflared"
@@ -58,22 +65,21 @@ if ! bashio::fs.file_exists "${TUNNEL_ORIGIN_CERT}"; then
 fi
 export TUNNEL_ORIGIN_CERT
 
-TUNNEL_NAME="ha-cloudflare"
 # Create the tunnel if it doesn't exist
 if /cloudflared tunnel info "${TUNNEL_NAME}" &>/dev/null; then
     bashio::log.info "Tunnel config exists..."
-else
-    bashio::log.info "Creating new tunnel config"
-    if ! /cloudflared tunnel create -o yaml --credentials-file "$(dirname "$TUNNEL_ORIGIN_CERT")/$TUNNEL_NAME.yml" "$TUNNEL_NAME"; then
-        bashio::log.error "Failed to create tunnel..."
-        exit 1
-    fi
+    /cloudflared tunnel delete -f "${TUNNEL_NAME}"
 fi
-TUNNEL_CRED_FILE="$(dirname "$TUNNEL_ORIGIN_CERT")/$TUNNEL_NAME.yml"
+bashio::log.info "Creating new tunnel config"
+rm -rf "${TUNNEL_CRED_FILE}"
+if ! /cloudflared tunnel create -o yaml --credentials-file "${TUNNEL_CRED_FILE}" "$TUNNEL_NAME"; then
+    bashio::log.error "Failed to create tunnel..."
+    exit 1
+fi
 export TUNNEL_CRED_FILE
 
 bashio::log.info "Creating new tunnel with hostname '${TUNNEL_HOSTNAME}' -> '${TUNNEL_URL}'"
-/cloudflared tunnel --name "$TUNNEL_NAME" || bashio::log.error "Error starting Cloudflare tunnel!" && exit 1
+/cloudflared tunnel --name "$TUNNEL_NAME" || bashio::log.error "Error starting Cloudflare tunnel! If errors persist try removing " && exit 1
 
 # if ! bashio::config.has_value 'config'; then
 #     CONF_FILE="/share/cloudflared/conf.yml"

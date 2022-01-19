@@ -16,7 +16,7 @@ RUN apk add --no-cache libc6-compat \
     && if [ "${BUILD_ARCH}" = "armv7" ]; then ARCH="arm"; fi \
     && if [ "${BUILD_ARCH}" = "amd64" ]; then ARCH="amd64"; fi \
     && if [ "${BUILD_ARCH}" = "i386" ]; then ARCH="386"; fi \
-    && curl -fsSL https://github.com/cloudflare/cloudflared/releases/download/2022.1.0/cloudflared-linux-${ARCH} -o /cloudflared \
+    && curl -fsSL https://github.com/cloudflare/cloudflared/releases/download/2022.1.2/cloudflared-linux-${ARCH} -o /cloudflared \
     && chmod a+x /cloudflared
 
 COPY entrypoint.sh /

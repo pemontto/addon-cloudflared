@@ -1,6 +1,6 @@
 ---
 name: Cloudflare Tunnel
-version: dev
+version: 2022.1.2-4
 slug: cloudflared
 description: Cloudflare Argo Tunnel client
 image: ghcr.io/pemontto/cloudflared/{arch}
@@ -21,7 +21,7 @@ options:
   hostname: ""
   loglevel: "info"
   overwrite_dns: true
-  # tunnel: "homeassistant"
+  tunnel_name: ""
   # certificate: "/ssl/cloudflared/cert.pem"
   # config_file: "
   # ingress: []
@@ -31,7 +31,7 @@ schema:
   hostname: str?
   loglevel: list(debug|info|warn|error|fatal)?
   overwrite_dns: bool?
-  # tunnel: str?
+  tunnel_name: str?
   # certificate: str?
   # config: str
   # ingress:
