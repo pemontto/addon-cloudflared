@@ -10,7 +10,6 @@ WORKDIR /cloudflare
 
 # Required for /lib/ld-linux*
 # hadolint ignore=DL3018
-
 RUN apk add --no-cache libc6-compat \
     && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi \
     && if [ "${BUILD_ARCH}" = "armhf" ]; then ARCH="arm"; fi \
