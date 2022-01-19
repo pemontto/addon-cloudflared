@@ -1,0 +1,38 @@
+---
+name: Cloudflare Tunnel
+version: "2021.11.0"
+slug: cloudflared
+description: Cloudflare Argo Tunnel client
+startup: services
+panel_icon: mdi:vpn
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+init: false
+map:
+  - ssl:rw
+  - share:rw
+options:
+  service: "http://homeassistant:8123"
+  hostname: ""
+  loglevel: "info"
+  overwrite_dns: true
+  # tunnel: "homeassistant"
+  # certificate: "/ssl/cloudflared/cert.pem"
+  # config_file: "
+  # ingress: []
+
+schema:
+  service: str
+  hostname: str?
+  loglevel: list(debug|info|warn|error|fatal)?
+  overwrite_dns: bool?
+  # tunnel: str?
+  # certificate: str?
+  # config: str
+  # ingress:
+  #   - hostname: str
+  #     service: str
