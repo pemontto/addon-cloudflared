@@ -1,4 +1,5 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/base/amd64:11.0.1
+# hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
 ENV LANG C.UTF-8
@@ -9,6 +10,7 @@ ARG BUILD_VERSION=2021.10.0
 WORKDIR /cloudflare
 
 # Required for /lib/ld-linux*
+# hadolint ignore=DL3018
 RUN apk add --no-cache libc6-compat \
     && if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; fi \
     && if [ "${BUILD_ARCH}" = "armhf" ]; then ARCH="arm"; fi \

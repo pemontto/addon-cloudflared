@@ -1,6 +1,6 @@
 ---
 name: Cloudflare Tunnel
-version: "2021.11.0"
+version: dev
 slug: cloudflared
 description: Cloudflare Argo Tunnel client
 startup: services
